@@ -8,4 +8,3 @@
 原文链接:https://github.com/liyifeng1994/ssm
 
 第四个项目是关于spring事务的一些demo,主要讲了声明式事务以及编程式事务.
-原文链接:https://www.cnblogs.com/ysocean/p/7617620.html
