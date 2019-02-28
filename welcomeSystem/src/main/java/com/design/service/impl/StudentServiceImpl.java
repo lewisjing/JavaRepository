@@ -19,4 +19,16 @@ public class StudentServiceImpl implements StudentService{
 		return student;
 	}
 
+	@Override
+	public Student findStudentByDepartmentId(int id) {
+		Student student = studentMapper.findStudentByDepartmentId(id);
+		return student;
+	}
+
+	@Override
+	public int saveStudent(Student student) {
+		
+		return studentMapper.saveStudent(student);
+	}
+
 }

@@ -7,6 +7,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-This is Login Page!
+	<ul>
+        <li class="user_main_text">验证码： </li>
+        <li class="user_main_input">
+	        <img style="width: 100px; height: 100px;" id="img" src="/test" onclick="b()" alt="">
+	        <input type="text" name="yanzheng"/>
+        </li>  
+	</ul>      
 </body>
 </html>
+<script type="text/javascript">
+	function b() {
+	    document.getElementById("img").src="/test";
+	}
+</script>
