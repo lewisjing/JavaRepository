@@ -1,9 +1,6 @@
 <template>
     <div class="loginDiv">
-        <header>
-            <img src="../../static/images/left_arrow.png" />
-            <span>密码登陆</span>
-        </header>
+        <Header :title="title"></Header>
         <div>
             <div class="user">
                 <input name="username" type="text" placeholder="用户名"/>
@@ -25,10 +22,13 @@
 </template>
 
 <script>
+import Header from './header/Header.vue'
 export default {
+    components: {Header},
     data: function() {
         return {
-            message: 'Hello World!'
+            message: 'Hello World!',
+            title: '密码登录'
         }
     }
 }
@@ -45,28 +45,6 @@ export default {
             border-radius: 5px;
             color: white;
             border: 0px;
-        }
-
-        header {
-            background-color: #3190e8;
-            height: 30px;
-            line-height: 35px;
-            color: white;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-
-            img {
-                width: 25px;
-                position: absolute;
-                left: 20px;
-                top: 4px;
-            }
-
-            span {
-                font-weight: bold;
-            }
         }
 
         .tipMessage {
