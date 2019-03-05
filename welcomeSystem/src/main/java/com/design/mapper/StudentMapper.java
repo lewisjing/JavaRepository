@@ -14,6 +14,6 @@ public interface StudentMapper {
 	@Select("select * from student where department_id = #{id}")
 	Student findStudentByDepartmentId(int id);
 	
-	@Insert("insert into student(name, department_id) values(#{name}, #{departmentId})")
+	@Insert("insert into student(name, department_id) values(#{name}, #{department.id})")
 	int saveStudent(Student student);
 }

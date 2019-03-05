@@ -1,5 +1,7 @@
 package com.design.service;
 
-public interface DepartmentService {
+import com.design.model.Department;
 
+public interface DepartmentService {
+    void saveDepartment(Department department);
 }

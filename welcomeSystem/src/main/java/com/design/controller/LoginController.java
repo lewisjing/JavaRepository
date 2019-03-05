@@ -8,6 +8,8 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import com.design.model.Department;
+import com.design.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +22,13 @@ import com.design.util.ImageUtil;
 
 @Controller
 public class LoginController {
-	@Autowired
+
+    @Autowired
 	private StudentService studentService;
-	
+
+	@Autowired
+	private DepartmentService departmentService;
+
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void login(HttpServletResponse response) {
 		try {
@@ -42,7 +48,13 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public String showPage() {
-		return "login";
+	public void showPage() {
+        Department department = new Department();
+        department.setName("Test");
+        departmentService.saveDepartment(department);
+        Student student = new Student();
+        student.setName("Jason");
+        student.setDepartment(department);
+        studentService.saveStudent(student);
 	}
 }
