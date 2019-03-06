@@ -1,5 +1,7 @@
 package com.design.service;
 
-public interface ClassroomService {
+import com.design.model.Classroom;
 
+public interface ClassroomService {
+    int saveClassroom(Classroom classroom);
 }

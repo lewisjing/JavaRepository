@@ -7,6 +7,8 @@ import com.design.mapper.StudentMapper;
 import com.design.model.Student;
 import com.design.service.StudentService;
 
+import java.util.List;
+
 @Service
 public class StudentServiceImpl implements StudentService{
 
@@ -20,14 +22,16 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 	@Override
-	public Student findStudentByDepartmentId(int id) {
-		Student student = studentMapper.findStudentByDepartmentId(id);
-		return student;
+	public List<Student> findStudentByDepartmentId(int id) {
+		List<Student> students = studentMapper.findStudentByDepartmentId(id);
+		return students;
 	}
 
 	@Override
 	public int saveStudent(Student student) {
-		
+		if (student.getId() != null) {
+
+		}
 		return studentMapper.saveStudent(student);
 	}
 

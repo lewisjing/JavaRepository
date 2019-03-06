@@ -1,5 +1,7 @@
 package com.design.service;
 
-public interface ProfessionService {
+import com.design.model.Profession;
 
+public interface ProfessionService {
+    int saveProfession(Profession profession);
 }

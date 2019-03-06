@@ -6,8 +6,6 @@ public class Classroom {
 	private String name;
 
 	private String teacher;
-	
-//	private Profession profession;
 
 	public Integer getId() {
 		return id;
@@ -24,15 +22,6 @@ public class Classroom {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-//	public Profession getProfession() {
-//		return profession;
-//	}
-//
-//	public void setProfession(Profession profession) {
-//		this.profession = profession;
-//	}
-
 
 	public String getTeacher() {
 		return teacher;

@@ -5,9 +5,9 @@ public class Dormitory {
 
     private String site;
 
-    private int floor;
+    private String floor;
 
-    private int dormitoryNum;
+    private String dormitoryNum;
 
     public Integer getId() {
         return id;
@@ -25,19 +25,19 @@ public class Dormitory {
         this.site = site;
     }
 
-    public int getFloor() {
+    public String getFloor() {
         return floor;
     }
 
-    public void setFloor(int floor) {
+    public void setFloor(String floor) {
         this.floor = floor;
     }
 
-    public int getDormitoryNum() {
+    public String getDormitoryNum() {
         return dormitoryNum;
     }
 
-    public void setDormitoryNum(int dormitoryNum) {
+    public void setDormitoryNum(String dormitoryNum) {
         this.dormitoryNum = dormitoryNum;
     }
 }

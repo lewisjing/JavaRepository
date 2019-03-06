@@ -5,15 +5,15 @@ public class Student {
 	
 	private String name;
 	
-	private boolean isPay;
+	private boolean pay;
 	
-	private int tuition;
+	private String tuition;
 
-	private int identityNum;
+	private String identityNum;
 
-	private int studentId;
+	private String studentId;
 
-	private int telephone;
+	private String telephone;
 
 	private String address;
 
@@ -41,43 +41,35 @@ public class Student {
 		this.name = name;
 	}
 
-	public boolean isPay() {
-		return isPay;
-	}
-
-	public void setPay(boolean isPay) {
-		this.isPay = isPay;
-	}
-
-	public int getTuition() {
+	public String getTuition() {
 		return tuition;
 	}
 
-	public void setTuition(int tuition) {
+	public void setTuition(String tuition) {
 		this.tuition = tuition;
 	}
 
-	public int getIdentityNum() {
+	public String getIdentityNum() {
 		return identityNum;
 	}
 
-	public void setIdentityNum(int identityNum) {
+	public void setIdentityNum(String identityNum) {
 		this.identityNum = identityNum;
 	}
 
-	public int getStudentId() {
+	public String getStudentId() {
 		return studentId;
 	}
 
-	public void setStudentId(int studentId) {
+	public void setStudentId(String studentId) {
 		this.studentId = studentId;
 	}
 
-	public int getTelephone() {
+	public String getTelephone() {
 		return telephone;
 	}
 
-	public void setTelephone(int telephone) {
+	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
 
@@ -119,5 +111,13 @@ public class Student {
 
 	public void setDormitory(Dormitory dormitory) {
 		this.dormitory = dormitory;
+	}
+
+	public boolean isPay() {
+		return pay;
+	}
+
+	public void setPay(boolean pay) {
+		this.pay = pay;
 	}
 }
