@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!-- 将db.properties引入 -->
+    <properties resource="db.properties"></properties>
+
+    <!-- 全局参数的配置 -->
+    <settings>
+        <!-- 开启二级缓存 -->
+        <setting name="cacheEnabled" value="true"/>
+        <!-- 开启日志并指定使用的具体日志  如果不指定，mybatis会按照一定的顺序去寻找日志-->
+        <setting name="logImpl" value="LOG4J"/>
+        <!-- 开启延迟加载 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 关闭立即加载 -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+
+    <!-- 定义别名 -->
+    <typeAliases>
+        <!-- 单个别名 忽略大小写-->
+        <!-- <typeAlias type="com.mybatis.model.Person" alias="Person"></typeAlias> -->
+
+        <!-- 批量定义 忽略大小写，将该包中的所有类批量定义别名-->
+        <package name="com.mybatis.model"/>
+    </typeAliases>
+
+    <typeHandlers>
+        <!-- 配置类型转换器 -->
+        <typeHandler handler="com.mybatis.handler.BooleanAndIntConverter" javaType="Boolean" jdbcType="INTEGER"></typeHandler>
+    </typeHandlers>
+
+    <!-- 配置拦截器 -->
+    <plugins>
+<!--        <plugin interceptor="com.mybatis.interceptor.MyInterceptor">-->
+<!--            &lt;!&ndash; 配置拦截器的属性 &ndash;&gt;-->
+<!--            <property name="name" value="景轩"/>-->
+<!--            <property name="age" value="24"/>-->
+<!--        </plugin>-->
+<!--        <plugin interceptor="com.mybatis.interceptor.MyInterceptor2">-->
+<!--            &lt;!&ndash; 配置拦截器的属性 &ndash;&gt;-->
+<!--            <property name="name" value="景轩"/>-->
+<!--            <property name="age" value="24"/>-->
+<!--        </plugin>-->
+
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 使用下面的方式配置参数，后面会有所有的参数介绍 -->
+<!--            <property name="param1" value="value1"/>-->
+        </plugin>
+    </plugins>
+
+    <!--环境配置，连接的数据库，这里使用的是MySQL-->
+    <environments default="mysql">
+        <environment id="mysql">
+            <!--指定事务管理的类型，这里简单使用Java的JDBC的提交和回滚设置-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--dataSource 指连接源配置，POOLED是JDBC连接对象的数据源连接池的实现-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"></property>
+                <property name="url" value="${url}"></property>
+                <property name="username" value="${username}"></property>
+                <property name="password" value="${password}"></property>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--这是告诉Mybatis区哪找持久化类的映射文件，对于在src下的文件直接写文件名，
+            如果在某包下，则要写明路径,如：com/mybatistest/config/User.xml-->
+        <mapper resource="mapper/personMapper.xml"></mapper>
+        <mapper resource="mapper/studentMapper.xml"></mapper>
+        <mapper resource="mapper/classMapper.xml"></mapper>
+        <mapper resource="mapper/studentCardMapper.xml"></mapper>
+    </mappers>
+</configuration>

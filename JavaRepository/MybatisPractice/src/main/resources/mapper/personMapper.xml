@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mybatis.dao.PersonMapper">
+
+    <cache/>
+
+    <resultMap id="personResult" type="Person">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="age" column="age"></result>
+        <!-- 当数据库字段的类型和 属性类型不一致的时候，需要使用javaType和jdbcType来说明 -->
+        <result property="sex" column="sex" javaType="Boolean" jdbcType="INTEGER"></result>
+
+        <!-- 鉴别器 -->
+<!--        <discriminator javaType="String" column="gname">-->
+<!--            <case value="a" resultType="Person">-->
+<!--                <result column="sname" property="stuName"></result>-->
+<!--            </case>-->
+<!--            <case value="b" resultType="Person">-->
+<!--                <result column="nickname" property="stuNames"></result>-->
+<!--            </case>-->
+<!--        </discriminator>-->
+    </resultMap>
+
+    <!-- 如果类中的属性和表中的字段，类型能够合理识别。则可以使用resultType，否则使用resultMap
+        比如说属性是userName, 字段是user_name
+     -->
+    <!-- 如果类中的属性名和表中的列名，能够合理识别。则可以使用resultType，否则使用resultMap -->
+    <select id="findPersonById" parameterType="int" resultMap="personResult" >
+        select * from person where id = #{id}
+    </select>
+
+    <select id="findAllPerson" resultType="Person">
+        select * from person
+    </select>
+
+    <!-- 插入数据的时候，如果需要转换字段类型，则需要在字段后面追加javaType和jdbcType -->
+    <insert id="addPerson" parameterType="Person" useGeneratedKeys="true" keyProperty="id">
+        insert into person(id, name, age, sex)
+        values(#{id}, #{name}, #{age}, #{sex, javaType=boolean, jdbcType=INTEGER})
+    </insert>
+
+    <update id="updatePersonById" parameterType="Person">
+        update person set name = #{name}, age = #{age} where id = #{id}
+    </update>
+
+    <delete id="deleteStudentByName" parameterType="String">
+        delete from person where name = #{name}
+    </delete>
+
+    <!-- 此方法用来说明 #{}和${} 都可以实现对象的级联查询
+        这里因为传入的是字符串，所以使用${}的方式更简便
+     -->
+    <select id="findPersonByAddress" parameterType="Person" resultType="Person">
+        select * from person
+        where home_address = '${address.homeAddress}' or school_address = '${address.schoolAddress}'
+    </select>
+
+    <!-- 当传入的参数不足以构成一个对象的时候，我们可以使用hashmap来传值, 这里的name和age就是map中的key值 -->
+    <select id="findPeronByNameOrAge" parameterType="HashMap" resultType="Person">
+        select * from person
+        where name = #{name} or age = #{age}
+    </select>
+
+    <!-- 当sql的返回值是多个的时候，并且不足以构成对象的时候，可以使用hashmap来作为返回值
+        这里的keyName和keyAge就是map的key值
+    -->
+    <select id="findNameAndAgeFromPerson" resultType="HashMap">
+        select name "keyName", age "keyAge" from person
+    </select>
+
+    <!-- 动态SQL -->
+
+    <!-- if标签 -->
+    <select id="findPersonWithIfTag1" resultType="Person" parameterType="Person">
+        <!-- 这里加上1=1是为了防止 下面两个if条件如果有一个不满足的话，那么sql语句就会报错，加上1=1就不会出现这种情况 -->
+        select * from person where 1=1
+        <if test="name != null and name != 'null'">
+            and name = '${name}'
+        </if>
+        <if test="age != null and age != 0">
+            or age = #{age}
+        </if>
+    </select>
+
+    <!-- 直接使用where标签能够解决上面1=1的问题 -->
+    <select id="findPersonWithWhereTag" parameterType="Person" resultType= "Person">
+        select * from person
+        <where>
+            <if test="name != null and name != 'null'">
+                and name = #{name}  <!-- 这里的and不用做处理，where标签会自动处理第一个and标签 -->
+            </if>
+
+            <if test="age != null and age != 0">
+                or age = #{age} <!-- 这里的and标签就不会被自动处理了 -->
+            </if>
+        </where>
+    </select>
+
+    <!-- foreach标签 -->
+    <!-- 使用list -->
+    <select id="findPersonWithForeachTag1" parameterType="list" resultType="Person">
+        select name, age from person
+        <where>
+            <if test="list != null and list.size > 0">
+                <foreach collection="list" open="and age in (" close=")" item="age" separator=",">
+                    #{age}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 使用数组 -->
+    <select id="findPersonWithForeachTag2" parameterType="list" resultType="Person">
+        select name, age from person
+        <where>
+            <if test="array != null and array.length > 0">
+                <foreach collection="array" open="and age in (" close=")" item="age" separator=",">
+                    #{age}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 对象数组 -->
+    <select id="findPersonWithForeachTag3" parameterType="list" resultType="Person">
+        select name, age from person
+        <where>
+            <if test="array != null and array.length > 0">
+                <foreach collection="array" open="and age in (" close=")" item="person" separator=",">
+                    #{person.age}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 对象集合 -->
+    <select id="findPersonWithForeachTag4" parameterType="list" resultType="Person">
+        select name, age from person
+        <where>
+            <if test="list != null and list.size > 0">
+                <foreach collection="list" open="and age in (" close=")" item="person" separator=",">
+                    #{person.age}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- HashMap -->
+    <select id="findPersonWithForeachTag5" parameterType="list" resultType="Person">
+        select name, age from person
+        <where>
+            <!-- 判断map是否为空，使用_parameter -->
+            <if test="_parameter != null and _parameter.size > 0">
+                <!-- 这里的collection要写map的key值 -->
+                <foreach collection="personList" open="and age in (" close=")" item="person" separator=",">
+                    #{person.age}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+</mapper>

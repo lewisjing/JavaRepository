@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mybatis.dao.StudentMapper">
+    <!-- 声明开启二级缓存 -->
+<!--    <cache/>-->
+
+    <!-- 开启ehcache的二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache">
+        <!-- 这里的属性值可以覆盖掉ehcache.xml中的值 -->
+<!--        <property name="maxElementsInMemory" value="1000"/>-->
+    </cache>
+
+    <resultMap id="studentCardMap" type="Student">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <!-- 一对一使用association， property表示在student类中的属性名，javaType表示该属性的类型 -->
+        <association property="card" javaType="StudentCard">
+            <id property="id" column="id"/>
+            <result property="cardNumber" column="card_number" />
+        </association>
+    </resultMap>
+
+    <select id="findStudentById" parameterType="int" resultMap="studentCardMap">
+        select s.*, c.* from student s
+        inner join student_card c
+        on s.card_id = c.id
+        where s.id = #{id}
+    </select>
+
+
+    <!-- 延迟加载 -->
+    <resultMap id="studentCardLazyLoadMap" type="Student">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <!-- 通过select在需要的时候在查询studentCard
+            column这里要填写外键的属性，一般是student的id，因为要根据student的id来找到card，同时，这个值也是studentCard的sql的参数
+        -->
+        <association property="card" javaType="StudentCard" select="com.mybatis.dao.StudentCardMapper.findStudentCardById" column="id">
+            <id property="id" column="id"/>
+            <result property="cardNumber" column="card_number" />
+        </association>
+    </resultMap>
+
+    <!-- 延迟加载，先查询学生 -->
+    <select id="findStudentByIdLazyLoad"  resultMap="studentCardLazyLoadMap">
+        select * from student
+    </select>
+
+    <select id="findStudentByClassLazyLoad" parameterType="int" resultType="Student">
+        select * from student
+        where class = #{class}
+    </select>
+</mapper>

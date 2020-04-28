@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <properties resource="db.properties"></properties>
+
+    <!-- 全局参数的配置 -->
+    <settings>
+        <!-- 开启日志并指定使用的具体日志  如果不指定，mybatis会按照一定的顺序去寻找日志-->
+        <setting name="logImpl" value="LOG4J"/>
+        <!-- 关闭自动转换下划线 -->
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+    </settings>
+</configuration>

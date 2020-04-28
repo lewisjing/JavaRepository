@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--  <properties resource="mybatis.properties" />
+         -->
+    <classPathEntry location="src/main/resources/mysql-connector-java-5.1.47.jar" />
+    <context id="msqlTables" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <jdbcConnection connectionURL="jdbc:mysql://127.0.0.1:3306/mybatis_genertor?serverTimezone=GMT%2B8"
+                        driverClass="com.mysql.jdbc.Driver" password="12345" userId="root" >
+
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <!-- 如果该值为true，则将数据库表中的DECIMAL和NUMERIC类型解析为java代码中的BigDecimal类型
+                如果为false，就解析成Integer类型
+             -->
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- model类生成的位置
+            targetPackage: 实体类所在包的路径
+            targetProject： 实体类的生成位置
+         -->
+        <javaModelGenerator targetPackage="com.mybatis.model" targetProject="D:\workspace\JavaRepository\JavaRepository\MybatisGenerator\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <!-- 从数据库返回的值被清理前后的空格  -->
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- 生成mapper
+            targetPackage： mapper文件所在包的路径
+            targetProject： mapper文件的生成位置
+         -->
+        <sqlMapGenerator targetPackage="mapping" targetProject="D:\workspace\JavaRepository\JavaRepository\MybatisGenerator\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- 生成接口 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.mybatis.dao" targetProject="D:\workspace\JavaRepository\JavaRepository\MybatisGenerator\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!--数据库表-->
+        <table tableName="student_class"></table>
+        <table tableName="student"></table>
+        <table tableName="student_card"></table>
+    </context>
+</generatorConfiguration>
